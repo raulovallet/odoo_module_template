@@ -1,23 +1,21 @@
 #!/bin/bash
 
 # Comprueba si se han proporcionado los argumentos necesarios
-if [ "$#" -ne 4 ]; then
-    echo "Uso: $0 create new module <ModuleName> <VariableName>"
+if [ "$#" -ne 3 ]; then
+    echo "Uso: $0 module <ModuleName> <VariableName>"
     exit 1
 fi
 
 # Asigna los argumentos a variables
 COMMAND1=$1
-COMMAND2=$2
-COMMAND3=$3
-MODULE_NAME=$4
-VARIABLE_NAME=$5
+MODULE_NAME="$2 $3"
 
-# Comprueba que los comandos sean correctos
-if [ "$COMMAND1" != "create" ] || [ "$COMMAND2" != "new" ] || [ "$COMMAND3" != "module" ]; then
-    echo "Comandos inválidos. Uso: $0 create new module <ModuleName> <VariableName>"
+# Comprueba que el primer comando sea correcto
+if [ "$COMMAND1" != "module" ]; then
+    echo "Comando inválido. Uso: $0 module <ModuleName> <VariableName>"
     exit 1
 fi
+
 
 # Crea las carpetas y archivos necesarios
 mkdir -p "./models"
@@ -28,12 +26,13 @@ touch "./__init__.py"
 echo "from . import models" > "./__init__.py"
 touch "./models/__init__.py"
 
+
 # Contenido específico para el archivo __manifest__.py
 cat <<EOL > "./__manifest__.py"
 {
     'name': '$MODULE_NAME',
-    'summary': """""",
-    'description': """""",
+    'summary': "",
+    'description': "",
     'author': "Jenrax",
     'website': "https://www.jenrax.com",
     'category': 'Uncategorized',
@@ -76,10 +75,10 @@ cat <<EOL > "./static/description/index.html"
 EOL
 
 # Copia la imagen icon.png en la carpeta description
-if [ -f icon.png ]; then
-    cp icon.png "./static/description/icon.png"
+if [ -f /Users/raulovalle/odoo/odoo16/odoo_module_template/icon.png ]; then
+    cp "/Users/raulovalle/odoo/odoo16/odoo_module_template/icon.png" "./static/description/icon.png"
 else
     echo "Advertencia: No se encontró el archivo icon.png"
 fi
 
-echo "Módulo $MODULE_NAME creado con la variable $VARIABLE_NAME."
+echo "Módulo $MODULE_NAME creado."
